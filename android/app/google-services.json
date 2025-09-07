@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "333389203809",
+    "project_id": "ivory-folder-457413-b3",
+    "storage_bucket": "ivory-folder-457413-b3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333389203809:android:e550f5964c5faa5d551d20",
+        "android_client_info": {
+          "package_name": "com.example.souqak"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZMxm2mUKUE12SB6HHVRUGV-n1jR5kExU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

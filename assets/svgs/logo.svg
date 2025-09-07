@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="titleDesc">
+  <title id="titleDesc">Souqak logo — shopping bag with location pin</title>
+
+  <!-- Colors -->
+  <!-- coral / red-orange bag -->
+  <!-- teal pin -->
+  <!-- navy text -->
+  <defs>
+    <style>
+      .bag { fill: none; stroke: #F05A4E; stroke-width: 40; stroke-linejoin: round; stroke-linecap: round; }
+      .bag-fill { fill: none; }
+      .pin { fill: #15A89A; stroke: none; }
+      .pin-hole { fill: #fff; }
+      .brand { font-family: "Poppins", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-weight: 700; font-size: 150px; fill: #0B3550; }
+    </style>
+  </defs>
+
+  <!-- Safe transparent background -->
+  <rect width="100%" height="100%" fill="transparent"/>
+
+  <!-- Shopping bag outline (simple modern style) -->
+  <g transform="translate(120,110) scale(0.75)">
+    <!-- bag body -->
+    <path class="bag" d="M140 220
+                         L140 520
+                         C140 580 180 620 240 620
+                         L560 620
+                         C620 620 660 580 660 520
+                         L660 220
+                         Z" />
+
+    <!-- scalloped awning -->
+    <path class="bag" d="M140 220
+                         L660 220
+                         M160 220
+                         C195 220 195 280 235 280
+                         C275 280 275 220 315 220
+                         C355 220 355 280 395 280
+                         C435 280 435 220 475 220
+                         C515 220 515 280 555 280
+                         C595 280 595 220 660 220" />
+
+    <!-- handle -->
+    <path class="bag" d="M300 160
+                         C300 110 400 90 420 160" />
+  </g>
+
+  <!-- Location pin placed overlapping bottom-right of bag -->
+  <g transform="translate(560,450) scale(0.6)">
+    <path class="pin" d="M168 0
+                        C112 0 64 48 64 106
+                        C64 186 168 270 168 270
+                        C168 270 272 186 272 106
+                        C272 48 224 0 168 0
+                        Z" />
+    <circle class="pin-hole" cx="168" cy="106" r="44"/>
+  </g>
+
+  <!-- Brand name -->
+  <text x="50%" y="900" text-anchor="middle" class="brand">Souqak</text>
+</svg>
