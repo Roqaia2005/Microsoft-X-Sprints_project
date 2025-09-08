@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:souqak/core/theming/colors.dart';
 import 'package:souqak/core/theming/styles.dart';
 import 'package:souqak/features/home/data/item.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:souqak/features/home/logic/cart_service.dart';
-
 
 class CartView extends StatelessWidget {
   const CartView({super.key});
@@ -15,7 +15,7 @@ class CartView extends StatelessWidget {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white, size: 20),
         backgroundColor: AppColors.blackColor,
-        title: Text("Cart", style: TextStyles.font18WhiteMedium),
+        title: Text(tr("cart"), style: TextStyles.font18WhiteMedium),
       ),
       body: StreamBuilder<List<Item>>(
         stream: CartService().getCartItems(), // ✅ رجّع items من Firestore
@@ -25,11 +25,8 @@ class CartView extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text(
-                "Your cart is empty",
-                style: TextStyle(color: Colors.white),
-              ),
+            return Center(
+              child: Text(tr("empty"), style: TextStyle(color: Colors.white)),
             );
           }
 
@@ -48,7 +45,10 @@ class CartView extends StatelessWidget {
                 trailing: IconButton(
                   icon: const Icon(Icons.delete, color: Colors.white),
                   onPressed: () {
-                    CartService().removeItemFromCart(item.title);
+                    CartService().removeItemFromCart(
+                      CartService().uid ?? "",
+                      item.title,
+                    );
                   },
                 ),
               );

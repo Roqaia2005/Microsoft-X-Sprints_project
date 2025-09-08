@@ -11,15 +11,8 @@ class FirebaseService {
       );
       return credential.user?.uid;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
+      throw _mapFirebaseError(e.code);
     }
-    return null;
   }
 
   Future<String?> login(String email, String password) async {
@@ -28,14 +21,22 @@ class FirebaseService {
         email: email,
         password: password,
       );
-      return credential.user?.uid; 
+      return credential.user?.uid;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
+      throw e.message ?? "";
     }
-    return null;
+  }
+
+  String _mapFirebaseError(String code) {
+    switch (code) {
+      case 'invalid-credential':
+        return 'Invalid email or password';
+      case 'weak-password':
+        return 'The password provided is too weak.';
+      case 'email-already-in-use':
+        return 'The account already exists for that email.';
+      default:
+        return 'Authentication failed. Please try again.';
+    }
   }
 }

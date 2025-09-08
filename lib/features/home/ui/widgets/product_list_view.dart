@@ -2,6 +2,7 @@ import 'product_list_view_item.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:souqak/features/home/data/item.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:souqak/features/home/logic/cart_service.dart';
 
 class ProductListView extends StatelessWidget {
@@ -9,28 +10,28 @@ class ProductListView extends StatelessWidget {
 
   final List<Item> hotOffers = [
     Item(
-      title: "Minimalist Vase",
-      subtitle: "20% off on all ceramic items",
+      title: tr("vase_title"),
+      subtitle: tr("vase_subtitle"),
       image: "assets/images/vase.png",
     ),
     Item(
-      title: "Abstract Art",
-      subtitle: "Buy one get one free",
+      title: tr("art_title"),
+      subtitle: tr("art_subtitle"),
       image: "assets/images/art.png",
     ),
     Item(
-      title: "Cozy Blanket",
-      subtitle: "Free shipping on orders over \$50",
+      title: tr("blanket_title"),
+      subtitle: tr("blanket_subtitle"),
       image: "assets/images/blanket.png",
     ),
     Item(
-      title: "Scented Candle",
-      subtitle: "Bundle and save up to 30%",
+      title: tr("candle_title"),
+      subtitle: tr("candle_subtitle"),
       image: "assets/images/candle.png",
     ),
     Item(
-      title: "Wall Clock",
-      subtitle: "Limited time offer: 15% off",
+      title: tr("clock_title"),
+      subtitle: tr("clock_subtitle"),
       image: "assets/images/clock.png",
     ),
   ];
@@ -46,13 +47,11 @@ class ProductListView extends StatelessWidget {
           onPressed: () async {
             final uid = FirebaseAuth.instance.currentUser!.uid;
 
-            // ✅ استدعاء CartService لإضافة المنتج
             await CartService().addItemToCart(hotOffers[index]);
 
-            // ✅ عرض SnackBar للتأكيد
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text("${hotOffers[index].title} added to cart"),
+                content: Text(tr("added-to-car")),
                 duration: const Duration(seconds: 1),
               ),
             );

@@ -13,11 +13,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final List<Widget> screens = [
-    ShoppingView(),
-    CartView(),
-  
-  ];
+  final List<Widget> screens = [ShoppingView(), CartView()];
   int currentPageIndex = 0;
   @override
   Widget build(BuildContext context) {

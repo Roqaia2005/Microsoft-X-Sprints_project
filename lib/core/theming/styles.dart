@@ -11,6 +11,11 @@ class TextStyles {
     fontWeight: FontWeight.w500,
     color: Colors.white,
   );
+  static TextStyle font18WhiteBold = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+  );
   static TextStyle font14WhiteRegular = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,

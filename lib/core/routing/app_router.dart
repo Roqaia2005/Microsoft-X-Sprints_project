@@ -24,9 +24,30 @@ abstract class AppRouter {
       GoRoute(path: kLoginView, builder: (context, state) => const LoginView()),
       GoRoute(
         path: kSignupView,
-        builder: (context, state) => const SignupView(),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: SignupView(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+            transitionDuration: const Duration(milliseconds: 900),
+          );
+        },
       ),
-      GoRoute(path: kHomeView, builder: (context, state) => const HomeView()),
+      GoRoute(
+        path: kHomeView,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: HomeView(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+            transitionDuration: const Duration(milliseconds: 900),
+          );
+        },
+      ),
       GoRoute(path: kCartView, builder: (context, state) => const CartView()),
     ],
 

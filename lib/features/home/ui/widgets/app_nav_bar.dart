@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:souqak/core/theming/colors.dart';
 import 'package:souqak/core/theming/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AppNavBar extends StatelessWidget {
   final int currentPageIndex;
@@ -25,7 +26,7 @@ class AppNavBar extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(Icons.home, color: Colors.white),
-              Text("Home", style: TextStyles.font14WhiteRegular),
+              Text(tr("home"), style: TextStyles.font14WhiteRegular),
             ],
           ),
           label: '',
@@ -35,7 +36,7 @@ class AppNavBar extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(Icons.shopping_cart, color: Colors.white),
-              Text("Cart", style: TextStyles.font14WhiteRegular),
+              Text(tr("cart"), style: TextStyles.font14WhiteRegular),
             ],
           ),
           label: '',

@@ -6,37 +6,48 @@ class CartService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  String? get _uid => _auth.currentUser?.uid;
+  String? get uid => _auth.currentUser?.uid;
 
   Future<void> addItemToCart(Item item) async {
-    if (_uid == null) return; // not logged in
-    await _firestore
-        .collection("users")
-        .doc(_uid)
-        .collection("cart")
-        .add(item.toJson());
+    if (uid == null) return; // not logged in
+
+    final cartRef = _firestore.collection("users").doc(uid).collection("cart");
+
+    final existing = await cartRef.where("title", isEqualTo: item.title).get();
+
+    if (existing.docs.isNotEmpty) {
+      return;
+    }
+
+    // Add only if not exists
+    await cartRef.add(item.toJson());
   }
 
   Stream<List<Item>> getCartItems() {
-    if (_uid == null) {
+    if (uid == null) {
       return const Stream.empty(); // if not logged in
     }
     return _firestore
         .collection("users")
-        .doc(_uid)
+        .doc(uid)
         .collection("cart")
         .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map((doc) => Item.fromJson(doc.data())).toList());
+        .map(
+          (snapshot) =>
+              snapshot.docs.map((doc) => Item.fromJson(doc.data())).toList(),
+        );
   }
 
-  Future<void> removeItemFromCart(String itemTitle) async {
-    if (_uid == null) return; // not logged in
-    await _firestore
+  Future<void> removeItemFromCart(String uid, String itemTitle) async {
+    final querySnapshot = await _firestore
         .collection("users")
-        .doc(_uid)
+        .doc(uid)
         .collection("cart")
-        .doc(itemTitle)
-        .delete();
+        .where("title", isEqualTo: itemTitle) // field name in your Item model
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      await doc.reference.delete();
+    }
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:souqak/core/theming/colors.dart';
 import 'package:souqak/core/theming/styles.dart';
 import 'package:souqak/core/routing/app_router.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:souqak/features/auth/logic/auth_cubit.dart';
 import 'package:souqak/features/home/ui/widgets/custom_button.dart';
 import 'package:souqak/features/auth/ui/widgets/custom_text_form_field.dart';
@@ -48,14 +49,14 @@ class _LoginViewState extends State<LoginView> {
         backgroundColor: AppColors.blackColor,
 
         iconTheme: IconThemeData(color: Colors.white, size: 20),
-        title: Text('Login', style: TextStyles.font24WhiteBold),
+        title: Text(tr("login"), style: TextStyles.font24WhiteBold),
       ),
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("successfully login✅")),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(tr("success-login"))));
             GoRouter.of(context).push(AppRouter.kHomeView);
           } else if (state is AuthFailure) {
             ScaffoldMessenger.of(
@@ -72,28 +73,42 @@ class _LoginViewState extends State<LoginView> {
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
             child: Form(
               key: _formKey,
-              child: Column(
+              child: ListView(
                 children: [
                   CustomTextFormField(
                     controller: _emailController,
-                    hintText: "Email",
+                    hintText: tr("email"),
                     fillColor: AppColors.textFieldColor,
                     hintStyle: TextStyle(color: AppColors.hintColor),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return tr("confirm-email");
+                      }
+                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                        return tr("valid-email");
+                      }
+                      return null;
+                    },
                   ),
                   SizedBox(height: 20),
 
                   CustomTextFormField(
                     controller: _passwordController,
-                    hintText: "Password",
+                    hintText: tr("password"),
                     obscureText: true,
                     fillColor: AppColors.textFieldColor,
                     hintStyle: TextStyle(color: AppColors.hintColor),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return tr("confirm-password");
+                      }
+                    },
                   ),
                   SizedBox(height: 20),
 
                   CustomButton(
                     backgroundColor: AppColors.buttonColor,
-                    text: "Log in",
+                    text: tr("login"),
                     onPressed: _submit,
                   ),
                 ],

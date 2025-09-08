@@ -9,11 +9,11 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this.service) : super(AuthInitial());
 
   final FirebaseService service;
- 
+
   Future<void> signup(String email, String password) async {
     emit(AuthLoading());
     try {
-     service.signup(email, password);
+      await service.signup(email, password);
       emit(AuthSuccess());
     } catch (e) {
       emit(AuthFailure(errorMessage: e.toString()));
@@ -23,7 +23,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
     try {
-      service.login(email, password);
+      await service.login(email, password);
       emit(AuthSuccess());
     } catch (e) {
       emit(AuthFailure(errorMessage: e.toString()));

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:souqak/core/theming/colors.dart';
 import 'package:souqak/core/theming/styles.dart';
 import 'package:souqak/core/routing/app_router.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:souqak/features/auth/logic/auth_cubit.dart';
 import 'package:souqak/features/home/ui/widgets/custom_button.dart';
 import 'package:souqak/features/auth/ui/widgets/custom_text_form_field.dart';
@@ -38,20 +39,21 @@ class _SignupViewState extends State<SignupView> {
   void _submit() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthCubit>().signup(
-            _emailController.text,
-            _passwordController.text,
-          );
+        _emailController.text,
+        _passwordController.text,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: AppColors.blackColor,
       appBar: AppBar(
         backgroundColor: AppColors.blackColor,
         iconTheme: const IconThemeData(color: Colors.white, size: 20),
-        title: Text('Create Account', style: TextStyles.font24WhiteBold),
+        title: Text(tr("create_account"), style: TextStyles.font24WhiteBold),
         centerTitle: true,
       ),
       body: BlocConsumer<AuthCubit, AuthState>(
@@ -60,11 +62,11 @@ class _SignupViewState extends State<SignupView> {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("Account created successfully ✅")),
             );
-            GoRouter.of(context).push(AppRouter.kLoginView);
+            GoRouter.of(context).push(AppRouter.kHomeView);
           } else if (state is AuthFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
           }
         },
         builder: (context, state) {
@@ -76,17 +78,16 @@ class _SignupViewState extends State<SignupView> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Form(
                 key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: ListView(
                   children: [
                     CustomTextFormField(
                       controller: _nameController,
-                      hintText: "Full name",
+                      hintText: tr("full_name"),
                       fillColor: AppColors.textFieldColor,
                       hintStyle: TextStyle(color: AppColors.hintColor),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter your full name";
+                          return tr("enter_full_name");
                         }
                         return null;
                       },
@@ -94,16 +95,17 @@ class _SignupViewState extends State<SignupView> {
                     const SizedBox(height: 20),
 
                     CustomTextFormField(
+
                       controller: _emailController,
-                      hintText: "Email",
+                      hintText: tr("email"),
                       fillColor: AppColors.textFieldColor,
                       hintStyle: TextStyle(color: AppColors.hintColor),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter your email";
+                          return tr("enter_email");
                         }
                         if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                          return "Please enter a valid email";
+                          return tr("valid-email");
                         }
                         return null;
                       },
@@ -112,16 +114,16 @@ class _SignupViewState extends State<SignupView> {
 
                     CustomTextFormField(
                       controller: _passwordController,
-                      hintText: "Password",
+                      hintText: tr("password"),
                       obscureText: true,
                       fillColor: AppColors.textFieldColor,
                       hintStyle: TextStyle(color: AppColors.hintColor),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter your password";
+                          return tr("password_required");
                         }
                         if (value.length < 6) {
-                          return "Password must be at least 6 characters";
+                          return tr("password_length");
                         }
                         return null;
                       },
@@ -130,32 +132,28 @@ class _SignupViewState extends State<SignupView> {
 
                     CustomTextFormField(
                       controller: _confirmPasswordController,
-                      hintText: "Confirm Password",
+                      hintText: tr("confirm_password"),
                       obscureText: true,
                       fillColor: AppColors.textFieldColor,
                       hintStyle: TextStyle(color: AppColors.hintColor),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Please confirm your password";
+                          return tr("confirm_password_required");
                         }
                         if (value != _passwordController.text) {
-                          return "Passwords do not match";
+                          return tr("passwords_do_not_match");
                         }
                         return null;
                       },
                     ),
                     const SizedBox(height: 20),
 
-                    Text(
-                      textAlign: TextAlign.center,
-                      style: TextStyles.font18WhiteMedium,
-                      "By creating an account, you agree to our Terms of Service and Privacy Policy.",
-                    ),
+                    Text(tr("terms_text"), style: TextStyles.font18WhiteMedium),
                     const SizedBox(height: 20),
 
                     CustomButton(
                       backgroundColor: AppColors.buttonColor,
-                      text: "Create Account",
+                      text: tr("button_create_account"),
                       onPressed: _submit,
                     ),
                   ],
